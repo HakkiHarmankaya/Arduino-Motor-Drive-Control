@@ -1,55 +1,65 @@
-# 🎮 Arduino #12: Joystick ile Servo Motor Kontrolü
+# ⚙️ Arduino #20: Motor Sürücü ile DC Motor Kontrolü
 
-Bu projede, bir **joystick modülü** kullanarak bir **servo motorun açısını kontrol etmeyi** öğreneceğiz.  
-Joystick hareket ettikçe, servo motor belirlenen eksende dönecektir.
+Bu projede **L298N** veya **L293D** gibi bir motor sürücü kullanılarak **DC motor** ileri yönde çalıştırılmıştır. Arduino üzerinden gelen dijital sinyallerle motorun yönü ve hızı kolayca kontrol edilebilir.
 
 🔗 [Web Siteme Bakmak İçin Tıkla](https://www.hakkiharmankaya.com/)  
-
-
----
-
-## 🧰 Gerekli Malzemeler
-
-- 1 adet **joystick modülü**
-- 1 adet **servo motor**
-- 1 adet **Arduino**
-- 1 adet **breadboard**
-- **Jumper kabloları**
+🔗 [GitHub Kaynak Kodu Sayfası](#)
 
 ---
 
-## ⚙️ Adım Adım Devre Kurulumu
+## 📦 Gerekli Malzemeler
 
-### 🔹 Adım 1: Devreyi Kurun
-
-- **Joystick modülü**:
-  - **VCC** → **5V**
-  - **GND** → **GND**
-  - **VRx** → **A0** (X ekseni)
-  - **VRy** → **A1** (Y ekseni – bu örnekte kullanılmayacak)
-
-- **Servo motor**:
-  - **Sinyal (sarı)** → **D3**
-  - **VCC (kırmızı)** → **5V**
-  - **GND (siyah/kahverengi)** → **GND**
+- 1 adet **Arduino Uno / Nano**
+- 1 adet **DC motor**
+- 1 adet **Motor sürücü (L298N / L293D)**
+- **Harici güç kaynağı** (örneğin 9V pil veya adaptör)
+- **Breadboard**
+- **Jumper kablolar**
 
 ---
 
-## 🔹 Adım 2: Arduino Kodunu Yazın ve Yükleyin
+## 🧭 Devre Bağlantıları
+
+### 🔌 DC Motor Bağlantısı
+
+| Sürücü Pinleri | Bağlantı          |
+|----------------|-------------------|
+| OUT1           | DC motor ucu 1    |
+| OUT2           | DC motor ucu 2    |
+
+### 🔌 Güç Bağlantıları
+
+| Sürücü Pinleri | Bağlantı          |
+|----------------|-------------------|
+| VCC (Vs/Vmotor)| + Güç Kaynağı     |
+| GND            | GND (Arduino + Güç) |
+
+> ⚠️ GND'ler ortak olmalıdır.
+
+### ⚙️ Arduino - Sürücü Kontrol Pinleri
+
+| Motor Sürücü Pini | Arduino Pin     |
+|-------------------|-----------------|
+| IN1               | D9              |
+| IN2               | D10             |
+
+---
+
+## 🔌 Arduino Kodları
+
+Aşağıdaki kod, DC motoru ileri yönde döndürür. `HIGH-LOW` sinyali kullanılarak motor çalıştırılır.
 
 ```cpp
-#include <Servo.h>
-
-Servo motor;
-int deger;
-int derece;
+int motorPini3 = 9;
+int motorPini4 = 10;
 
 void setup() {
-  motor.attach(3); // Servo motoru 3. pine bağla
+  pinMode(motorPini3, OUTPUT);
+  pinMode(motorPini4, OUTPUT);
 }
 
 void loop() {
-  deger = analogRead(A0);               // Joystick X eksenini oku
-  derece = map(deger, 0, 1023, 0, 180); // 0-1023 → 0-180 derece
-  motor.write(derece);                  // Servo motoru belirtilen açıya döndür
+  // İleri hareket
+  digitalWrite(motorPini3, HIGH);
+  digitalWrite(motorPini4, LOW);
 }
