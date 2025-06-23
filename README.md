@@ -3,7 +3,7 @@
 Bu projede **L298N** veya **L293D** gibi bir motor sürücü kullanılarak **DC motor** ileri yönde çalıştırılmıştır. Arduino üzerinden gelen dijital sinyallerle motorun yönü ve hızı kolayca kontrol edilebilir.
 
 🔗 [Web Siteme Bakmak İçin Tıkla](https://www.hakkiharmankaya.com/)  
-🔗 [GitHub Kaynak Kodu Sayfası](#)
+
 
 ---
 
